@@ -117,6 +117,9 @@ module.exports = function(grunt) {
 				files: [ 'Gruntfile.js', 'js/reveal.js' ],
 				tasks: 'js'
 			},
+      custom: {
+				files: [ 'css/workshop.css' ]
+      },
 			theme: {
 				files: [ 'css/theme/source/*.scss', 'css/theme/template/*.scss' ],
 				tasks: 'css-themes'

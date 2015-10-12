@@ -1,0 +1,20 @@
+.highlight-red, h2.highlight-red {
+  color: #FF0000;
+}
+
+.reveal section img.whitefill {
+  background-color: #FFFFFF;
+  border: none;
+}
+
+.whitefill {
+  background-color: #FFFFFF;
+}
+
+.reveal pre code.stretch-vertical {
+  max-height: 575px;
+}
+
+.reveal pre.stretch-horizontal {
+  width: 100%;
+}
