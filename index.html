@@ -186,7 +186,7 @@
 
           <div class="fragment">
             <pre><code class="lang-http" data-trim>
-GET /api/user/ezimuel
+GET /api/user/jguittard
 
 {
 	"_links": {
@@ -513,8 +513,9 @@ $ cd /vagrant && git checkout -b exercise/1 origin/exercise/1
 						<h2>Exercise 1: RPC service</h2>
 
 						<ol>
-							<li>Create an RPC service that returns the timezone of the server
-                via <code>GET /timezone</code></li>
+              <li>Create an API named "Conference"</li>
+              <li>Create an RPC service named "Timezone" that returns the
+                timezone of the server via <code>GET /timezone</code></li>
               <li>Enable <code>POST</code> and check if the <i>timezone</i>
                 parameter is a valid timezone.</li>
 						</ol>
@@ -552,9 +553,7 @@ $ git checkout -b exercise/1 origin/excercise/1
 CREATE TABLE speakers (
   id INTEGER PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
-  title VARCHAR(80) NOT NULL,
-  company VARCHAR(80) NOT NULL,
-  url_company VARCHAR(255),
+  url VARCHAR(255),
   twitter VARCHAR(80)
 );
 
@@ -563,8 +562,7 @@ CREATE TABLE talks (
   title TEXT,
   abstract TEXT,
   day TEXT,
-  start_time TEXT,
-  end_time TEXT
+  start_time TEXT
 );
 
 CREATE TABLE talks_speakers (
@@ -611,12 +609,17 @@ CREATE TABLE talks_speakers (
 
           <ol>
             <li>Create the DB adapter, naming it "conference".</li>
-            <li>Create two REST services for speakers and talks.</li>
+            <li>Create two REST services for speakers and talks:
+              <ul>
+                <li>Service "speaker" to listen at <code>/speaker[/:speaker_id]</code></li>
+                <li>Service "talk" to listen at <code>/talk[/:talk_id]</code></li>
+              </ul>
+            </li>
             <li>Create the Mapper classes for speakers and talks.</li>
             <li>Use the SQLite adapter inside the Mapper.</li>
             <li>Consume the Mapper class in the REST Resources.</li>
-            <li>Implement GET, POST, PATCH and DELETE for Entities.</li>
-            <li>Implement GET for Collections.</li>
+            <li>Implement GET, PATCH and DELETE for Entities.</li>
+            <li>Implement GET and POST for Collections.</li>
           </ol>
 				</section>
 
@@ -651,7 +654,7 @@ git checkout -b exercise/2 origin/exercise/2
           <h2>Exercise 3: Fields and Validators</h2>
 
           <ol>
-            <li>Add fields <i>name</i>, <i>title</i> and <i>company</i> to the Speaker resource.</li>
+            <li>Add required fields <i>name</i> and <i>url</i> to the Speaker resource.</li>
             <li>Add fields <i>title</i>, and <i>day</i> to the Talk resource.</li>
             <li>Add a validator for <i>day</i> to accept dates <em>only</em> in the format YYYY-MM-DD<small>*</small></li>
             <li>Add a custom error message for the validator <i>day</i>.</li>
@@ -688,10 +691,14 @@ git checkout -b exercise/3 origin/exercise/3
 
           <ol>
             <li>Add "speakers" to entities returned via <code>GET /talk/:talk_id</code> <small>*</small></li>
-            <li>Add "talks" to entities returned via <code>GET /speaker/:speaker_id</code> </li>
+            <li>Add "talks" to entities returned via <code>GET /speaker/:speaker_id</code> <small>**</small></li>
           </ol>
 
           <p><small>* Add a speakers field in TalkEntity to return a SpeakerCollection</small></p>
+          <p><small>** Add a talks field in SpeakerEntity to return a TalkCollection</small></p>
+          <p><small>SQL joins: http://framework.zend.com/manual/current/en/modules/zend.db.sql.html</small></p>
+          <p><small>DbSelect Paginator: http://framework.zend.com/manual/current/en/modules/zend.paginator.usage.html</small></p>
+          <p><small>Hint: you'll want factories for your mappers...</small></p>
 				</section>
 
 				<section>
