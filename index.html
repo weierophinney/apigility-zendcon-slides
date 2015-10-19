@@ -499,7 +499,7 @@ $ phing init
 
           <p>Four exercises with solutions in branches: exercise/1, exercise/2,
             exercise/3, and exercise/4.</p>
-            
+
           <p>Switch between them within your vagrant box:</p>
 
           <pre><code class="lang-bash" data-trim>
@@ -599,6 +599,69 @@ CREATE TABLE talks_speakers (
               <li>Provide an overview of the classes generated for REST
                 services, and a rough outline of what the Mapper will look like.</li>
               <li>Demonstrate some basic DB operations.</li>
+            </ul>
+          </aside>
+				</section>
+
+				<section>
+					<h2>TableGateway</h2>
+					<ul>
+						<li>Data TableGateway Pattern</li>
+						<li>An object that acts as a Gateway to a database table.</li>
+						<li><em>One instance handles all the rows in the table.</em></li>
+						<li>!= ActiveRecord</li>
+					</ul>
+					<pre><code class="lang-php" data-trim>
+						class TableGateway extends AbstractTableGateway
+{
+	public function __construct($table,
+			AdapterInterface $adapter,
+			$features = null,
+			ResultSetInterface $resultSetPrototype = null,
+			Sql $sql = null)
+	{
+
+	}
+}
+					</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Minimal information for TableGateway is <strong>table name</strong> and <strong>adapter</strong>
+							<li>http://martinfowler.com/eaaCatalog/tableDataGateway.html</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>ResultSet</h2>
+					<ul>
+						<li>You can define a way to map the resulting data from your queries with <strong>Zend\Db\ResultSet</strong></li>
+						<li>This mapping feature is called <em>hydrating</em></li>
+
+					</ul>
+					<pre><code class="lang-php" data-trim>
+						class HydratingResultSet extends AbstractResultSet
+{
+	public function __construct(HydratorInterface $hydrator = null,
+			$objectPrototype = null)
+    {
+        $this->setHydrator(($hydrator) ?: new ArraySerializable);
+        $this->setObjectPrototype(($objectPrototype) ?: new ArrayObject);
+    }
+}
+//...
+
+$resultSet = new HydratingResultSet();
+$resultSet->setObjectPrototype(new TalkEntity());
+					</code></pre>
+
+					<aside class="notes">
+            <ul>
+							<li>HydratingResultSet will populate the TalkEntity object by calling exchangeArray in this object</li>
+              <li>By default, HydratingResultset produces ArraySerializable hydration</li>
+              <li>Other hydrators are ClassMethods, ObjectProperty and Reflection</li>
+							<li>Eventually, it's a matter of injecting a TableGateway and a ResultSet in the Resource</li>
             </ul>
           </aside>
 				</section>
