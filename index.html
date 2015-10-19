@@ -746,6 +746,32 @@ git checkout -b exercise/3 origin/exercise/3
           </ul>
         </section>
 
+        <section>
+          <h2>ZF2 SQL Abstraction</h2>
+
+          <pre><code class="lang-php" data-trim>
+$sql = $table->getSql();
+$select = $sql->select();
+$select->join('talks_speakers', 'talks_speakers.speaker_id = speakers.id')
+  ->where(['talks_speakers.talk_id' => $talkId]);
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Pagination</h2>
+
+          <p>You'll want the DbSelect paginator:</p>
+
+          <pre><code class="lang-php" data-trim>
+use Zend\Paginator\Adapter\DbSelect;
+$paginator = new DbSelect(
+    $select,
+    $table->adapter,
+    $table->getResultSetPrototype() // &lt;-- THIS MAKES IT WORK!
+);
+          </code></pre>
+        </section>
+
 				<section>
           <h2>Exercise 4: Embedded Collections</h2>
 
